@@ -6,6 +6,6 @@ namespace App\Models;
 
 use Jenssegers\Model\Model;
 
-class Brewery extends Model
+class Address extends Model
 {
 }

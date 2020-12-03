@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Http\Helpers\BreweryRequestSender;
+use App\Http\Repositories\BreweryRepository;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
@@ -35,6 +37,13 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Route::bind('brewery', function ($value) {
+            // It will be better to use DI for this, but I did not managed i time.
+            $requestSender = new BreweryRequestSender();
+            $repository = new BreweryRepository($requestSender);
+            return $repository->getById($value);
+        });
+
         $this->configureRateLimiting();
 
         $this->routes(function () {
